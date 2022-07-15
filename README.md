@@ -79,15 +79,15 @@ const App = () => (
 ### 렌더링 성능 최적화
 - 애니메이션 최적화
 
-### 애니메이션 최적화 검사 (Reflow, Repaint)
+#### 애니메이션 최적화 검사 (Reflow, Repaint)
 - Chrome 개발자 도구 -> Performance 탭 -> CPU 옵션에서 성능을 하향시켜 애니메이션 동작이 저사양에서도 일정하게 동작되는지 체크
 
-### 애니메이션 원리
+#### 애니메이션 원리
 - 연속되는 이미지가 1초에 한번씩 변경되면서 연속되는 화면으로 나타나는 원리
 - 기본적으로 초당 60 Frame(60FPS)로 표현
 - 성능 이슈로 초당 60 프레임이 아닌 30 또는 20 프레임으로 동작시 쟁크 발생(애니메이션이 버벅이는 현상)
 
-### 브라우저 렌더링 과정
+#### 브라우저 렌더링 과정
 - DOM + CSSOM -> Render Tree -> Layout -> Paint -> Composite
 - DOM + CSSOM
   - HTML -> DOM, CSS -> CSSOM 로 가공하여 두 가지 형태의 트리 구조를 생성
@@ -101,28 +101,36 @@ const App = () => (
   - Layout, Paint 등 각각의 레이어로 생성된 결과물을 하나로 합성하여 최종적인 화면을 생성
 - 위 일련의 과정을 Critical Rendering Path 또는 Pixel Pipeline 이라고 한다.
 
-### Reflow
+#### Reflow
 - width, height(위치나 크기) 변경
 - 위치나 크기가 변경되어 모든 렌더링 과정을 재실행
-### Repaint
+#### Repaint
 - color, background-color(색상) 변경
 - 위치나 크기가 변경되지않아 렌더링 과정중 Layout 과정을 생략
 
-### Reflow, Repaint 피하기(GPU 도움받기)
+#### Reflow, Repaint 피하기(GPU 도움받기)
 - transform, opacity(GPU가 관여할 수 있는 속성) 변경
 - GPU 가 직접적으로 데이터를 가공함으로써 Layout, Paint 과정을 생략
 
-### 애니메이션 구현시 주의사항
+#### 애니메이션 구현시 주의사항
 - Reflow 을 발생시키는 속성의 사용을 피한다.
 - 가능하다면 Reflow, Repaint 과정을 모두 생략할 수 있는 transform 또는 opacity 속성같은 GPU 을 활용할 수 있는 속성을 사용하여 애니메이션을 구현한다.
+
+#### 애니메이션 최적화
+- width
+  - 최대 60프레임 기준 프레임이 일정하지 않음
+  - 메인 스레드에서 동작하게 되어 스레드에 부하를 일으켜 프레임 드랍이 발생
+- transform
+  - 최대 60프레임 기준 프레임이 일정함
+  - GPU 의 도움을 받아 스레드가 하는 역할이 적어 부하가 일어나지 않아 프레임이 일정하게 유지
 
 ### 로딩 성능 최적화
 - 컴포넌트 Lazy Loading
 - 컴포넌트 Preloading
 - 이미지 Preloading
 
-### 컴포넌트 Lazy Loading(Code Splitting)
+#### 컴포넌트 Lazy Loading(Code Splitting)
 
-### 컴포넌트 Preloading
+#### 컴포넌트 Preloading
 
-### 이미지 Preloading
+#### 이미지 Preloading
