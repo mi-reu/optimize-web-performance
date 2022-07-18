@@ -129,8 +129,41 @@ const App = () => (
 - 컴포넌트 Preloading
 - 이미지 Preloading
 
-#### 컴포넌트 Lazy Loading(Code Splitting)
+#### 컴포넌트 Lazy Loading
+```jsx
+import React, { useState, Suspense, lazy } from 'react'
+import styled from 'styled-components'
+import Header from './components/Header'
+import InfoTable from './components/InfoTable'
+import SurveyChart from './components/SurveyChart'
+import Footer from './components/Footer'
+
+const LazyImageModal = lazy(() => import('./components/ImageModal'));
+
+function App() {
+    const [showModal, setShowModal] = useState(false)
+
+    return (
+        <div className="App">
+            <Header />
+            <InfoTable />
+            <ButtonModal onClick={() => { setShowModal(true) }}>올림픽 사진 보기</ButtonModal>
+            <SurveyChart />
+            <Footer />
+            <Suspense fallback={null}>
+                {showModal ? <LazyImageModal closeModal={() => { setShowModal(false) }} /> : null}
+            </Suspense>
+        </div>
+    )
+}
+```
+블로그 사이트 최적화와 동일하게 리액트의 Suspense, lazy 를 이용하여 컴포넌트 Lazy Loading 및 Code Splitting을 구현한다.
+
+#### Lazy Loading의 단점
+- 사용자가 버튼을 클릭한 후, 모달 파일을 불러와야하기 때문에 실제 화면이 보이기까지 네트워크 및 스크립트 실행 등의 딜레이가 발생 
 
 #### 컴포넌트 Preloading
-
-#### 이미지 Preloading
+- Preloading 을 이용하여 실제 코드가 필요하기전에 미리 코드를 다운로드 받는다.
+- Preload Timing
+  1. 버튼 위에 마우스를 올려 놨을 때(onMouseEnter)
+  2. 최초 페이지 로드가 되고, 모든 컴포넌트의 마운트가 끝났을 때(useEffect)
