@@ -167,3 +167,14 @@ function App() {
 - Preload Timing
   1. 버튼 위에 마우스를 올려 놨을 때(onMouseEnter)
   2. 최초 페이지 로드가 되고, 모든 컴포넌트의 마운트가 끝났을 때(useEffect)
+
+
+#### 이미지 Preloading
+- 이미지가 필요하기전, 미리 Image 클래스를 통해 빈 이미지 객체를 만들고 src 속성에 로드할 이미지 주소를 입력하여 이미지 프리로딩을 할 수 있다.
+```jsx
+useEffect(() => {
+    const img = new Image();
+
+    img.src = 'https://stillmed.olympic.org/media/Photos/2016/08/20/part-1/20-08-2016-Football-Men-01.jpg?interpolation=lanczos-none&resize=*:800';
+}, []);
+```
